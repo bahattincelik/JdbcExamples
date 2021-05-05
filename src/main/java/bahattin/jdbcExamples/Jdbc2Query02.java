@@ -3,7 +3,7 @@ package bahattin.jdbcExamples;
 import java.sql.*; //Tum JDBC metotlarini eklemek icin.
 
 
-public class JdbcQuery02 {
+public class Jdbc2Query02 {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
@@ -42,9 +42,42 @@ public class JdbcQuery02 {
 		while (rs.next()) {
 			System.out.println("Isim"+rs.getString(1)+"\t" +"Maas" +rs.getDouble(2));
 		}
+		System.out.println("=====================================");
+
 		
+		/*=======================================================================
+		ORNEK4: Tüm bolumlerde calisan personelin isimlerini, bolum isimlerini 
+		ve maaslarini bolum ve maas siraali listeleyiniz. NOT: calisani olmasa 
+		 bile bolum ismi gosterilmelidir.
+		========================================================================*/		
 		
+		String q3 = "SELECT b.bolum_isim,p.personel_isim,p.maas"
+                + "    FROM personel p"
+                + "    FULL JOIN bolumler b"
+                + "    ON b.bolum_id=p.bolum_id"
+                + " ORDER BY b.bolum_id,p.maas ";
 		
+		ResultSet sonuc1 = st.executeQuery(q3);
+		
+		while(sonuc1.next()) {
+			System.out.println(sonuc1.getString(1) + "\t" + sonuc1.getString(2) + "\t" + sonuc1.getInt(3));
+		}
+		/*=======================================================================
+		ORNEK5: Maasi en yuksek 10 kisiyinin bolumunu,adini ve maasini listeyiniz
+		========================================================================*/
+		
+		String q4 = "SELECT b.bolum_isim, p.personel_isim, p.maas"
+				+ " FROM personel p"
+				+ " JOIN bolumler b"
+				+ " ON b.bolum_id=p.bolum_id"
+				+ " ORDER BY p.maas DESC"
+				+ " FETCH NEXT 10 ROWS ONLY";
+		
+		ResultSet sonuc2 = st.executeQuery(q4);
+		
+		while (sonuc2.next()) {
+			System.out.println(sonuc2.getString(1)+"\t"+sonuc2.getString(2)+"\t"+sonuc2.getInt(3));
+		}
 		
 		
 		
@@ -53,6 +86,8 @@ public class JdbcQuery02 {
 		con.close();
 		st.close();
 		bolumlerTablosu.close();
+		sonuc1.close();
+		sonuc2.close();
 	}
 
 }

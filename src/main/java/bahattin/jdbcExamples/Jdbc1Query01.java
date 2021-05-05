@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class JdbcQuery01 {
+public class Jdbc1Query01 {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		// 1) Ilgili driver'i yuklemeliyiz.

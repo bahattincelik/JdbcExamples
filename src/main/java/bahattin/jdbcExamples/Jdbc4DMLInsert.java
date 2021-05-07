@@ -47,31 +47,69 @@ public class Jdbc4DMLInsert {
     // yavas yapilmasina yol acar. 10000 tane veri kaydi yapildigi dusunuldugunde
     // bu kotu bir yaklasimdir.
     
-    String [] sorgular = {"INSERT INTO bolumler VALUES(95, 'YEMEKHANE', 'ISTANBUL')",
-                         "INSERT INTO bolumler VALUES(85, 'OFIS','ANKARA')",
-                         "INSERT INTO bolumler VALUES(75, 'OFIS2', 'VAN')"};
+//    String [] sorgular = {"INSERT INTO bolumler VALUES(95, 'YEMEKHANE', 'ISTANBUL')",
+//                         "INSERT INTO bolumler VALUES(85, 'OFIS','ANKARA')",
+//                         "INSERT INTO bolumler VALUES(75, 'OFIS2', 'VAN')"};
+//	
+//    
+//    for (String each : sorgular) {
+//		st.executeQuery(each);
+//	}
+//    String selectQuery2 = "SELECT * FROM bolumler";
+//	
+//	ResultSet rs1 = st.executeQuery(selectQuery2);
+//	
+//	while (rs1.next()) {
+//		System.out.println("Bolum Id : "+rs1.getInt(1)+" "
+//							+"Bolum Isimi : "+ rs1.getString(2)+ " "
+//							+"Konum : "+rs1.getString(3));
+//		
+//	}
+    
+	// 2.YONTEM (addBath ve excuteBatch() metotlari ile)
+   	// ----------------------------------------------------
+   	// addBatch metodu ile SQL ifadeleri gruplandirilabilir ve exucuteBatch()
+   	// metodu ile veritabanina bir kere gonderilebilir.
+   	// excuteBatch() metodu bir int [] dizi dondurur. Bu dizi her bir ifade sonucunda 
+   	// etkilenen satir sayisini gosterir.
+	
+	 
+    String [] sorgular1 = {"INSERT INTO bolumler VALUES(81, 'YEMEKHANE2', 'MUS')",
+                         "INSERT INTO bolumler VALUES(82, 'OFIS3','ORDU')",
+                         "INSERT INTO bolumler VALUES(73, 'OFIS4', 'MUGLA')"};
 	
     
-    for (String each : sorgular) {
-		st.executeQuery(each);
+	for (String each : sorgular1) {
+		st.addBatch(each);
 	}
-    String selectQuery2 = "SELECT * FROM bolumler";
 	
-	ResultSet rs1 = st.executeQuery(selectQuery2);
+	int[] s3 = st.executeBatch();
 	
-	while (rs1.next()) {
-		System.out.println("Bolum Id : "+rs1.getInt(1)+" "
-							+"Bolum Isimi : "+ rs1.getString(2)+ " "
-							+"Konum : "+rs1.getString(3));
-		
-	}
-    
-
-    
+	System.out.println(s3.length+" satir eklendi");
+	
+	// 3. YONTEM
+	//-----------------------------------------------------
+	// batch metoduyla birlikte PreparedStatement kullanmak en efektif yontemdir.
+	// bir sonraki ornekte bunu gerceklestirecegiz.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     
     con.close();
 	st.close();
-	rs1.close();
+	//rs1.close();
 	
 	}
 
